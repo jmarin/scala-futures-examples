@@ -5,22 +5,16 @@ import scala.concurrent.Await
 import scala.concurrent.duration.*
 import scala.util.Failure
 import scala.util.Success
+import com.jmarin.actor.SimpleActor
+import com.jmarin.futures.FutureExample
 
 object FuturesMain:
 
   def main(args: Array[String]): Unit =
     println("Hello Scala JS Futures!")
 
-    import scala.concurrent.ExecutionContext.Implicits.global
+    // Running Futures
+    FutureExample.run()
 
-    (for
-      fs <- Weather.weatherSequential("MAD")
-      fp <- Weather.weatherParallel("MAD")
-    yield (fs, fp)).onComplete {
-      case Failure(exception) =>
-        println(s"Something failed ${exception.getLocalizedMessage()}")
-      case Success(value) =>
-        println(
-          s"Prediction from sequential futures: ${value._1}\nPrediction from parallel futures: ${value._2}"
-        )
-    }
+    // Interacting with Actors
+    SimpleActor.run()

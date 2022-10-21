@@ -24,12 +24,17 @@ lazy val futures = crossProject(JSPlatform, JVMPlatform)
   .settings(Defaults.itSettings ++ sharedSettings)
   .jvmSettings(
     // Configure JVM settings
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor-typed" % "2.6.20"
+    )
   )
   .jsSettings(
     // Configure JS settings
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
       "io.github.cquiroz" %%% "scala-java-time" % "2.3.0",
-      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0"
+      "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.3.0",
+      ("org.akka-js" %%% "akkajsactortyped" % "2.2.6.14" exclude ("org.scala-js", "scalajs-java-time"))
+        .cross(CrossVersion.for3Use2_13)
     )
   )
